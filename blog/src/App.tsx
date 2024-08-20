@@ -1,12 +1,19 @@
 import React from 'react';
 import logo from './logo.svg';
+import AuctionDetails from './page/AuctionDetail';
 import './App.css';
+import AuctionList from './page/AuctionList';
+import LoginPage from './page/Login';
+import ChargePointPage from './page/ChargePoint';
+import ReceiptListPage from './page/ReceiptList';
 
 function App() {
   return (
-    <div className='bg-red-100'>
-      donggeun blog
-    </div>
+    <AuctionDetails />
+    // <AuctionList />
+    // <LoginPage />
+    // <ChargePointPage />
+    // <ReceiptListPage />
   );
 }
 
