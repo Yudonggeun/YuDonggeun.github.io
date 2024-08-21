@@ -1,4 +1,70 @@
+import {getPriceFormatted} from "../../../util/NumberUtil";
+import {getKrDateFormat, formatVariationDuration} from "../../../util/DateUtil";
+import {useState} from "react";
+import {AuctionDetailInfo} from "./type";
+import PricePolicyElement from "./PricePolicyElement";
+
+
+
 function AuctionDetail() {
+
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const increaseQuantity = (maximum: number) => {
+    if(quantity >= maximum) {
+      alert("최대 구매 수량을 초과하였습니다.");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  }
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      alert("최소 구매 수량은 1개입니다.");
+    }
+  }
+  //
+  // const auction: AuctionDetailInfo = {
+  //   auctionId: 1,
+  //   sellerId: 2,
+  //   productName: "혼다 CB750 Four K0",
+  //   description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
+  //   imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
+  //   originPrice: 10000,
+  //   currentPrice: 5000,
+  //   currentStock:40,
+  //   totalStock: 100,
+  //   maximumPurchaseLimitCount: 10,
+  //   pricePolicy: {
+  //     type: "PERCENTAGE",
+  //     discountRate: 10.0
+  //   },
+  //   variationDuration: "PT4M",
+  //   startedAt: new Date('2024-08-15T14:18:00'),
+  //   finishedAt: new Date('2024-08-15T15:18:00'),
+  // };
+
+  const auction: AuctionDetailInfo = {
+    auctionId: 1,
+    sellerId: 2,
+    productName: "테스트 상품",
+    description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
+    imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
+    originPrice: 10000,
+    currentPrice: 5000,
+    currentStock:50,
+    totalStock: 100,
+    maximumPurchaseLimitCount: 10,
+    pricePolicy: {
+      type: "CONSTANT",
+      variationWidth: 10
+    },
+    variationDuration: "PT1M",
+    startedAt: new Date('2024-08-15T14:18:00'),
+    finishedAt: new Date('2024-08-15T15:18:00'),
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -26,62 +92,77 @@ function AuctionDetail() {
       <div className="card bg-base-100 shadow-xl">
         <figure>
           <img
-            src="https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png"
+            src={auction.imageUrl}
             alt="Honda CB750 Four K0"
           />
         </figure>
         <div className="card-body">
-          <h1 className="card-title text-2xl font-bold">혼다 CB750 Four K0</h1>
+          <h1 className="card-title text-2xl font-bold">{auction.productName}</h1>
           <p className="text-base">
-            이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.
+            {auction.description}
           </p>
 
-          <h2 className="text-2xl font-bold pt-5">현재 입찰가</h2>
-          <h1 className="text-2xl font-bold">₩24,000,000</h1>
 
           <div className="flex items-center gap-4 py-2">
             <div>
               <p className="text-base font-medium">경매 종료 시간</p>
-              <p className="text-sm text-primary">2024년 8월 27일 15:30</p>
+              <p className="text-sm text-primary">{getKrDateFormat(auction.finishedAt)}</p>
             </div>
           </div>
 
           <div className="mb-4">
             <p className="text-base font-medium">변동 주기</p>
-            <p className="text-sm text-primary">1분 단위</p>
+            <p className="text-sm text-primary">{formatVariationDuration(auction.variationDuration)}</p>
           </div>
 
           <div>
             <div className="flex justify-between">
               <p className="text-base font-medium">경매 진행률</p>
-              <p className="text-sm">50%</p>
+              <p className="text-sm">{auction.currentStock / auction.totalStock * 100}%</p>
             </div>
-            <progress className="progress progress-primary w-full" value="50" max="100"></progress>
+            <progress className="progress progress-primary w-full"
+                      value={auction.currentStock / auction.totalStock * 100} max="100"></progress>
             <div className="flex justify-between mt-2">
-              <p className="text-sm">현재 재고: 25개</p>
-              <p className="text-sm">총 재고: 50개</p>
+              <p className="text-sm">현재 재고: {auction.currentStock}개</p>
+              <p className="text-sm">총 재고: {auction.totalStock}개</p>
             </div>
           </div>
 
           <div className="mt-4">
             <p className="text-base font-medium">최대 구매 가능 수량</p>
-            <p className="text-sm text-primary">5개</p>
+            <p className="text-sm text-primary">{auction.maximumPurchaseLimitCount}개</p>
           </div>
+
+          <PricePolicyElement
+              pricePolicy={auction.pricePolicy}
+              currentPrice={auction.currentPrice}
+              originPrice={auction.originPrice}
+              variationDuration={auction.variationDuration}
+              priceLimit={0}
+          />
 
           <div className="mt-4">
             <label className="label">
               <span className="label-text">구매 수량</span>
             </label>
             <div className="flex items-center max-w-xs">
-              <button className="btn btn-outline btn-square">-</button>
+              <button
+                  className="btn btn-outline btn-square"
+                  onClick={() => decreaseQuantity()}
+              >-
+              </button>
               <input
-                type="number"
-                min="1"
-                max="5"
-                value="1"
-                className="input input-bordered w-20 text-center mx-2"
+                  type="number"
+                  min="1"
+                  max={auction.maximumPurchaseLimitCount}
+                  value={quantity}
+                  className="input input-bordered w-20 text-center mx-2"
               />
-              <button className="btn btn-outline btn-square">+</button>
+              <button
+                  className="btn btn-outline btn-square"
+                  onClick={() => increaseQuantity(auction.maximumPurchaseLimitCount)}
+              >+
+              </button>
             </div>
           </div>
 
