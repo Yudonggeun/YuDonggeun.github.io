@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
-import AuctionDetails from './pages/AuctionDetail';
 import './App.css';
-import AuctionList from './pages/AuctionList';
+import AuctionDetails from './pages/auction/detail/AuctionDetail';
+import AuctionList from './pages/auction/list/AuctionList';
 import LoginPage from './pages/Login';
 import ChargePointPage from './pages/ChargePoint';
 import ReceiptListPage from './pages/ReceiptList';
-import {usePageStore} from "./store/PageStore";
 import Footer from "./pages/Footer";
 import SignUpPage from "./pages/SignUp";
+import {usePageStore} from "./store/PageStore";
 
 function App() {
 
