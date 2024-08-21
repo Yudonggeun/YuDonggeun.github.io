@@ -1,3 +1,26 @@
+import ReceiptListElement from "./ReceiptListElement";
+import {ReceiptSimpleInfo} from "./type";
+
+
+const receiptList: Array<ReceiptSimpleInfo> = [
+    {
+        id: 1,
+        authorId: 1,
+        type: 'PURCHASE',
+        productName: '롤렉스 서브마리너',
+        quantity: 1,
+        price: 10000000
+    },
+    {
+        id: 2,
+        authorId: 3,
+        type: 'REFUND',
+        productName: 'test',
+        quantity: 4,
+        price: 5000000
+    }
+]
+
 function ReceiptListPage() {
     return (
         <div className="bg-slate-50">
@@ -15,19 +38,10 @@ function ReceiptListPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-gray-200">
-                                <td className="px-4 py-2">구매</td>
-                                <td className="px-4 py-2">롤렉스 서브마리너</td>
-                                <td className="px-4 py-2">1</td>
-                                <td className="px-4 py-2">₩10,000,000</td>
-                            </tr>
-                            <tr className="border-b border-gray-200">
-                                <td className="px-4 py-2">환불</td>
-                                <td className="px-4 py-2">버버리 트렌치코트</td>
-                                <td className="px-4 py-2">1</td>
-                                <td className="px-4 py-2">₩1,500,000</td>
-                            </tr>
-                        </tbody>
+                            {receiptList.map(receipt => (
+                                <ReceiptListElement key={receipt.id} {...receipt} />
+                            ))}
+                       </tbody>
                     </table>
                 </div>
             </div>

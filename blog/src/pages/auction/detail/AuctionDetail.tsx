@@ -1,4 +1,3 @@
-import {getPriceFormatted} from "../../../util/NumberUtil";
 import {getKrDateFormat, formatVariationDuration} from "../../../util/DateUtil";
 import {useState} from "react";
 import {AuctionDetailInfo} from "./type";
@@ -25,26 +24,6 @@ function AuctionDetail() {
       alert("최소 구매 수량은 1개입니다.");
     }
   }
-  //
-  // const auction: AuctionDetailInfo = {
-  //   auctionId: 1,
-  //   sellerId: 2,
-  //   productName: "혼다 CB750 Four K0",
-  //   description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
-  //   imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
-  //   originPrice: 10000,
-  //   currentPrice: 5000,
-  //   currentStock:40,
-  //   totalStock: 100,
-  //   maximumPurchaseLimitCount: 10,
-  //   pricePolicy: {
-  //     type: "PERCENTAGE",
-  //     discountRate: 10.0
-  //   },
-  //   variationDuration: "PT4M",
-  //   startedAt: new Date('2024-08-15T14:18:00'),
-  //   finishedAt: new Date('2024-08-15T15:18:00'),
-  // };
 
   const auction: AuctionDetailInfo = {
     auctionId: 1,
@@ -128,11 +107,6 @@ function AuctionDetail() {
             </div>
           </div>
 
-          <div className="mt-4">
-            <p className="text-base font-medium">최대 구매 가능 수량</p>
-            <p className="text-sm text-primary">{auction.maximumPurchaseLimitCount}개</p>
-          </div>
-
           <PricePolicyElement
               pricePolicy={auction.pricePolicy}
               currentPrice={auction.currentPrice}
@@ -142,33 +116,39 @@ function AuctionDetail() {
           />
 
           <div className="mt-4">
-            <label className="label">
-              <span className="label-text">구매 수량</span>
-            </label>
-            <div className="flex items-center max-w-xs">
+            <div className="flex justify-end">
               <button
                   className="btn btn-outline btn-square"
                   onClick={() => decreaseQuantity()}
               >-
               </button>
-              <input
-                  type="number"
-                  min="1"
-                  max={auction.maximumPurchaseLimitCount}
-                  value={quantity}
-                  className="input input-bordered w-20 text-center mx-2"
-              />
+              <div className="h-full">
+                <input
+                    type="number"
+                    min="1"
+                    max={auction.maximumPurchaseLimitCount}
+                    value={quantity}
+                    className="input input-bordered text-center mx-2"
+                />
+              </div>
               <button
                   className="btn btn-outline btn-square"
                   onClick={() => increaseQuantity(auction.maximumPurchaseLimitCount)}
               >+
               </button>
+
             </div>
+
+            <div className="mt-2 text-sm text-end">
+              최대 구매 가능 수량은 <span className="text-primary">{auction.maximumPurchaseLimitCount}개</span>입니다.
+            </div>
+            <div className="card-actions justify-end ml-4 mt-4">
+              <button className="btn btn-primary">입찰하기</button>
+            </div>
+
+
           </div>
 
-          <div className="card-actions justify-center mt-4">
-            <button className="btn btn-primary">즉시 구매</button>
-          </div>
         </div>
       </div>
     </div>
