@@ -4,4 +4,9 @@ interface SignUpRequest {
     userRole: string;
 }
 
-export default SignUpRequest;
+interface SignInRequest {
+    signInId: string;
+    password: string;
+}
+
+export type { SignInRequest, SignUpRequest };

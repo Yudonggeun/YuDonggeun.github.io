@@ -1,13 +1,29 @@
-import { useState } from 'react';
-import { usePageStore } from "../store/PageStore";
+import {useState} from 'react';
+import {usePageStore} from "../store/PageStore";
+import {SignInRequest} from "../api/user/type";
+import {signInApi} from "../api/user/UserApi";
 
 function LoginPage() {
-    const { currentPage, setPage } = usePageStore();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const {currentPage, setPage} = usePageStore();
+
+    const [request, setRequest] = useState<SignInRequest>({
+        signInId: '',
+        password: '',
+    });
 
     const changePage = (page: string) => {
         setPage(page);
+    }
+
+    const requestLogin = () => {
+        signInApi(request,
+            () => {
+                alert("회원가입에 성공했습니다.");
+            },
+            () => {
+                alert("회원가입에 실패했습니다.");
+            }
+        );
     }
 
     return (
@@ -26,8 +42,8 @@ function LoginPage() {
                                     id="username"
                                     type="text"
                                     placeholder="사용자 이름을 입력하세요"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={request.signInId}
+                                    onChange={(e) => setRequest({...request, signInId: e.target.value,})}
                                 />
                             </div>
                             <div className="mb-6">
@@ -39,21 +55,25 @@ function LoginPage() {
                                     id="password"
                                     type="password"
                                     placeholder="비밀번호를 입력하세요"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={request.password}
+                                    onChange={(e) => setRequest({...request, password: e.target.value,})}
                                 />
                             </div>
                             <div className="mb-2 flex items-center justify-between">
                                 <button
                                     className="btn btn-primary w-full bg-[#62CBC6] border-none hover:bg-[#4FA6A3]"
-                                    type="button">
+                                    type="button"
+                                    onClick={requestLogin}
+                                >
                                     로그인
                                 </button>
                             </div>
                             <div className="flex items-center justify-between">
                                 <button
                                     className="btn btn-primary w-full bg-[#62CBC6] border-none hover:bg-[#4FA6A3]"
-                                    type="button" onClick={() => changePage('signup')}>
+                                    type="button"
+                                    onClick={() => changePage('signup')}
+                                >
                                     회원가입
                                 </button>
                             </div>
