@@ -8,6 +8,7 @@ import ChargePointPage from './pages/ChargePoint';
 import ReceiptListPage from './pages/ReceiptList';
 import {usePageStore} from "./store/PageStore";
 import Footer from "./pages/Footer";
+import SignUpPage from "./pages/SignUp";
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
         return <ChargePointPage />;
       case 'receiptList':
         return <ReceiptListPage />;
+      case 'signup':
+        return <SignUpPage />;
     }
   }
 
@@ -35,12 +38,6 @@ function App() {
         </div>
         <Footer />
       </>
-
-      // <AuctionDetails />
-      // <AuctionList />
-    // <LoginPage />
-    // <ChargePointPage />
-    // <ReceiptListPage />
   );
 }
 

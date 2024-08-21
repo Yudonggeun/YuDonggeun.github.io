@@ -1,4 +1,12 @@
+import {usePageStore} from "../store/PageStore";
+
 function LoginPage() {
+    const { currentPage, setPage } = usePageStore();
+
+    const changePage = (page: string) => {
+        setPage(page);
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-slate-50">
             <div className="w-full max-w-xs">
@@ -28,11 +36,18 @@ function LoginPage() {
                                     placeholder="비밀번호를 입력하세요"
                                 />
                             </div>
-                            <div className="flex items-center justify-between">
+                            <div className="mb-2 flex items-center justify-between">
                                 <button
                                     className="btn btn-primary w-full bg-[#62CBC6] border-none hover:bg-[#4FA6A3]"
                                     type="button">
                                     로그인
+                                </button>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button
+                                    className="btn btn-primary w-full bg-[#62CBC6] border-none hover:bg-[#4FA6A3]"
+                                    type="button" onClick={() => changePage('signup')}>
+                                    회원가입
                                 </button>
                             </div>
                         </form>
