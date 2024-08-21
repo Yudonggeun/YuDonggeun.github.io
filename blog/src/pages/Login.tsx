@@ -17,7 +17,7 @@ function LoginPage() {
 
     const requestLogin = () => {
         signInApi(request,
-            () => {
+            (sessionId) => {
                 alert("회원가입에 성공했습니다.");
             },
             () => {

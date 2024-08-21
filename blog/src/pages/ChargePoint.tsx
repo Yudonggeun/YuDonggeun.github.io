@@ -1,4 +1,28 @@
+import {ChargePointsRequest} from "../api/payments/type";
+import {chargePointsApi} from "../api/payments/PaymentApi";
+import {useState} from "react";
+
+
 function ChargePointPage() {
+
+    const sessionId = 'your-session-id'; // 세션 ID는 실제 값을 사용해야 합니다.
+    const [request, setRequest] = useState<ChargePointsRequest>({
+        amount: 0,
+    });
+
+    const requestChargePoints = () => {
+        chargePointsApi(
+            request,
+            sessionId,
+            () => {
+                alert('Point charge successful!');
+            },
+            () => {
+                alert('Point charge failed.');
+            }
+        );
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-slate-50">
             <div className="w-full max-w-xs">
@@ -17,12 +41,15 @@ function ChargePointPage() {
                                     placeholder="충전할 포인트를 입력하세요"
                                     min="0"
                                     step="1"
+                                    onChange={(e) => setRequest({...request, amount: parseInt(e.target.value)})}
                                 />
                             </div>
                             <div className="flex items-center justify-center">
                                 <button
                                     className="btn btn-primary w-full bg-[#62CBC6] border-none hover:bg-[#4FA6A3]"
-                                    type="button">
+                                    type="button"
+                                    onClick={requestChargePoints}
+                                >
                                     충전하기
                                 </button>
                             </div>

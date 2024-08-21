@@ -26,7 +26,7 @@ async function signUpApi(
 
 async function signInApi(
     data: SignInRequest,
-    onSuccess: () => void,
+    onSuccess: (sessionId: string) => void,
     onFailure: () => void
 ) {
     try {
@@ -37,9 +37,13 @@ async function signInApi(
             },
             body: JSON.stringify(data),
         });
-
         if (response.ok) {
-            onSuccess();
+            const sessionId = response.headers.get('JSESSIONID');
+            if (sessionId) {
+                onSuccess(sessionId);
+            } else {
+                onFailure();
+            }
         } else {
             onFailure();
         }
