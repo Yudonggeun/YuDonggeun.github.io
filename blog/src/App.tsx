@@ -1,11 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import AuctionDetails from './page/AuctionDetail';
+import AuctionDetails from './pages/AuctionDetail';
 import './App.css';
-import AuctionList from './page/AuctionList';
-import LoginPage from './page/Login';
-import ChargePointPage from './page/ChargePoint';
-import ReceiptListPage from './page/ReceiptList';
+import AuctionList from './pages/AuctionList';
+import LoginPage from './pages/Login';
+import ChargePointPage from './pages/ChargePoint';
+import ReceiptListPage from './pages/ReceiptList';
 
 function App() {
   return (
