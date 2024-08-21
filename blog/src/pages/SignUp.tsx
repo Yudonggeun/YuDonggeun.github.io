@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {signUpApi} from "../api/user/UserApi";
+import {signUpApi} from "../api/user/api";
 import {SignUpRequest} from "../api/user/type";
 
 function SignUpPage() {

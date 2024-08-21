@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {usePageStore} from "../store/PageStore";
 import {SignInRequest} from "../api/user/type";
-import {signInApi} from "../api/user/UserApi";
+import {signInApi} from "../api/user/api";
 
 function LoginPage() {
     const {currentPage, setPage} = usePageStore();

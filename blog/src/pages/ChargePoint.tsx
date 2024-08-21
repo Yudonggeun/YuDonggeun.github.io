@@ -1,5 +1,5 @@
 import {ChargePointsRequest} from "../api/payments/type";
-import {chargePointsApi} from "../api/payments/PaymentApi";
+import {chargePointsApi} from "../api/payments/api";
 import {useState} from "react";
 
 

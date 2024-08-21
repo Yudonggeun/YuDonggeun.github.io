@@ -1,6 +1,72 @@
 import AuctionListElement from "./AuctionListElement";
+import {AuctionItem, AuctionsRequest} from "../../../api/auction/type";
+import {requestAuctionList} from "../../../api/auction/api";
+import {useEffect, useState} from "react";
 
 function AuctionList() {
+
+    const [request, setRequest] = useState<AuctionsRequest>({
+        offset: 0,
+        size: 20,
+    });
+
+    const [auctions, setAuctions] = useState<AuctionItem[]>([
+        {
+            id: 1,
+            title: '롤렉스 서브마리너',
+            price: 10000000,
+            startedAt: '2000-10-08T13:30:00',
+            finishedAt: '2004-10-09T13:30:00',
+        },
+    ]);
+
+    useEffect(() => {
+        requestAuctionList(
+            request,
+            (newAuctions) => {
+                setAuctions([...newAuctions]);
+                alert('Auctions fetched successfully:');
+            },
+            () => {
+                alert('Failed to fetch auctions.');
+            }
+        );
+    }, []);
+
+    const nextPage = () => {
+        requestAuctionList(
+            {
+                offset: request.offset + request.size,
+                size: request.size,
+            },
+            (newAuctions) => {
+                setAuctions([...newAuctions]);
+                setRequest({...request, offset: request.offset + request.size});
+                alert('Auctions fetched successfully:');
+            },
+            () => {
+                alert('Failed to fetch auctions.');
+            }
+        );
+    }
+
+    const previousPage = () => {
+        requestAuctionList(
+            {
+                offset: request.offset - request.size,
+                size: request.size,
+            },
+            (newAuctions) => {
+                setAuctions([...newAuctions]);
+                setRequest({...request, offset: request.offset - request.size});
+                alert('Auctions fetched successfully:');
+            },
+            () => {
+                alert('Failed to fetch auctions.');
+            }
+        );
+    }
+
 
     return (
         <div className="min-h-screen flex flex-col justify-between">
@@ -46,11 +112,33 @@ function AuctionList() {
 
                 <div className="p-4">
                     <div className="grid grid-cols-1 gap-[10px]">
-
-                        <AuctionListElement/>
-                        <AuctionListElement/>
-
+                        {
+                            auctions.map((auction) => (
+                                <AuctionListElement
+                                    id={auction.id}
+                                    title={auction.title}
+                                    price={auction.price}
+                                    startedAt={new Date(auction.startedAt)}
+                                    endedAt={new Date(auction.finishedAt)}
+                                    imageUrl={'https://cdn.usegalileo.ai/stability/61d9ba43-1402-4c08-acd8-5b4d04828fb2.png'}
+                                />
+                            ))
+                        }
                     </div>
+                </div>
+                <div className="flex justify-between p-4">
+                    <button
+                        className="btn btn-outline text-[#62CBC6] border-[#62CBC6]"
+                        onClick={previousPage}
+                    >
+                        이전 페이지
+                    </button>
+                    <button
+                        className="btn btn-outline text-[#62CBC6] border-[#62CBC6]"
+                        onClick={nextPage}
+                    >
+                        다음 페이지
+                    </button>
                 </div>
             </div>
         </div>

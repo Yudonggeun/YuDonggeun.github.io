@@ -1,1 +1,1 @@
-import './PaymentApi';
+import './api';
