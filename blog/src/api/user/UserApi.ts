@@ -1,8 +1,6 @@
-
-// API 호출 함수 정의
 import SignUpRequest from "./type";
 
-async function signUpApi(
+export async function signUpApi(
     data: SignUpRequest,
     onSuccess: () => void,
     onFailure: () => void
@@ -25,5 +23,3 @@ async function signUpApi(
         onFailure();
     }
 }
-
-export default signUpApi;

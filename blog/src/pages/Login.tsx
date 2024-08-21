@@ -1,7 +1,10 @@
-import {usePageStore} from "../store/PageStore";
+import { useState } from 'react';
+import { usePageStore } from "../store/PageStore";
 
 function LoginPage() {
     const { currentPage, setPage } = usePageStore();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const changePage = (page: string) => {
         setPage(page);
@@ -23,6 +26,8 @@ function LoginPage() {
                                     id="username"
                                     type="text"
                                     placeholder="사용자 이름을 입력하세요"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                             <div className="mb-6">
@@ -34,6 +39,8 @@ function LoginPage() {
                                     id="password"
                                     type="password"
                                     placeholder="비밀번호를 입력하세요"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <div className="mb-2 flex items-center justify-between">
