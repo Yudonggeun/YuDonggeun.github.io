@@ -1,4 +1,3 @@
-// 가격 정책 타입을 정의합니다.
 interface PercentagePricePolicy {
     type: 'PERCENTAGE';
     discountRate: number;

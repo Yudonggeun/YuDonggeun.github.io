@@ -1,4 +1,4 @@
-import {AuctionItem, AuctionsRequest} from "./type";
+import {AuctionDetailItem, AuctionItem, AuctionsRequest} from "./type";
 
 async function requestAuctionList(
     data: AuctionsRequest,
@@ -25,4 +25,29 @@ async function requestAuctionList(
     }
 }
 
-export {requestAuctionList};
+async function requestAuctionDetail(
+    auctionId: number,
+    onSuccess: (auctionDetail: AuctionDetailItem) => void,
+    onFailure: () => void
+) {
+    try {
+        const response = await fetch(`http://localhost:8080/auctions/${auctionId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const auctionDetail: AuctionDetailItem = await response.json();
+            onSuccess(auctionDetail);
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        onFailure();
+    }
+}
+
+export {requestAuctionList, requestAuctionDetail};

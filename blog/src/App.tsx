@@ -8,17 +8,19 @@ import ReceiptListPage from './pages/receipt/list/ReceiptList';
 import Footer from "./pages/Footer";
 import SignUpPage from "./pages/SignUp";
 import {usePageStore} from "./store/PageStore";
+import {useAuctionStore} from "./store/AuctionStore";
 
 function App() {
 
   const { currentPage, setPage } = usePageStore();
+  const { auctionId, setAuctionId } = useAuctionStore();
 
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
         return <AuctionList />;
       case 'auctionDetail':
-        return <AuctionDetails />;
+        return <AuctionDetails auctionId={auctionId}/>;
       case 'login':
         return <LoginPage />;
       case 'charge':

@@ -1,12 +1,14 @@
 import {getKrDateFormat, formatVariationDuration} from "../../../util/DateUtil";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AuctionDetailInfo} from "./type";
 import PricePolicyElement from "./PricePolicyElement";
+import {requestAuctionDetail} from "../../../api/auction/api";
 
 
 
-function AuctionDetail() {
+function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
+  const [auction, setAuction] = useState<AuctionDetailInfo | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
   const increaseQuantity = (maximum: number) => {
@@ -25,25 +27,58 @@ function AuctionDetail() {
     }
   }
 
-  const auction: AuctionDetailInfo = {
-    auctionId: 1,
-    sellerId: 2,
-    productName: "테스트 상품",
-    description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
-    imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
-    originPrice: 10000,
-    currentPrice: 5000,
-    currentStock:50,
-    totalStock: 100,
-    maximumPurchaseLimitCount: 10,
-    pricePolicy: {
-      type: "CONSTANT",
-      variationWidth: 10
-    },
-    variationDuration: "PT1M",
-    startedAt: new Date('2024-08-15T14:18:00'),
-    finishedAt: new Date('2024-08-15T15:18:00'),
-  };
+  useEffect(() => {
+    if(auctionId === undefined) {
+      return;
+    }
+    requestAuctionDetail(auctionId,
+        (auctionDetailItem) => {
+            alert("상품 정보를 성공적으로 가져왔습니다.");
+          setAuction({
+            auctionId: auctionDetailItem.auctionId,
+            sellerId: auctionDetailItem.sellerId,
+            productName: auctionDetailItem.productName,
+            description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
+            imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
+            originPrice: auctionDetailItem.originPrice,
+            currentPrice: auctionDetailItem.currentPrice,
+            currentStock: auctionDetailItem.stock,
+            totalStock: auctionDetailItem.stock,
+            maximumPurchaseLimitCount: auctionDetailItem.maximumPurchaseLimitCount,
+            pricePolicy: auctionDetailItem.pricePolicy,
+            variationDuration: auctionDetailItem.variationDuration,
+            startedAt: new Date(auctionDetailItem.startedAt),
+            finishedAt: new Date(auctionDetailItem.finishedAt),
+          });
+        },
+        () => {
+          alert("상품 정보를 가져오는데 실패했습니다.");
+          setAuction({
+            auctionId: 1,
+            sellerId: 2,
+            productName: "실패시 테스트 상품",
+            description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
+            imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
+            originPrice: 10000,
+            currentPrice: 5000,
+            currentStock:50,
+            totalStock: 100,
+            maximumPurchaseLimitCount: 10,
+            pricePolicy: {
+              type: "CONSTANT",
+              variationWidth: 10
+            },
+            variationDuration: "PT1M",
+            startedAt: new Date('2024-08-15T14:18:00'),
+            finishedAt: new Date('2024-08-15T15:18:00'),
+          });
+        }
+    );
+  }, []);
+
+  if(auction === null) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">

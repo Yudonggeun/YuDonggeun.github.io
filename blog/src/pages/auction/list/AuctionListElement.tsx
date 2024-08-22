@@ -22,14 +22,6 @@ function AuctionListElement(
     }: AuctionSimpleInfo
 ) {
 
-    // const auction: AuctionSimpleInfo = {
-    //     id: 1,
-    //     title: '롤렉스 서브마리너',
-    //     price: 10000000,
-    //     startedAt: new Date('2000-10-08T13:30:00'),
-    //     endedAt: new Date('2004-10-09T13:30:00'),
-    //     imageUrl: 'https://cdn.usegalileo.ai/stability/61d9ba43-1402-4c08-acd8-5b4d04828fb2.png'
-    // }
     const {currentPage, setPage} = usePageStore();
 
     const changePage = (page: string) => {
@@ -58,3 +50,12 @@ function AuctionListElement(
 }
 
 export default AuctionListElement;
+
+// const auction: AuctionSimpleInfo = {
+//     id: 1,
+//     title: '롤렉스 서브마리너',
+//     price: 10000000,
+//     startedAt: new Date('2000-10-08T13:30:00'),
+//     endedAt: new Date('2004-10-09T13:30:00'),
+//     imageUrl: 'https://cdn.usegalileo.ai/stability/61d9ba43-1402-4c08-acd8-5b4d04828fb2.png'
+// }
