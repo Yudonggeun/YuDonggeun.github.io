@@ -10,6 +10,7 @@ import SignUpPage from "./pages/SignUp";
 import { usePageStore } from "./store/PageStore";
 import { useAuctionStore } from "./store/AuctionStore";
 import ReceiptDetailPage from "./pages/receipt/detail/ReceiptDetail";
+import AlertPage from './pages/AlertPage';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
   return (
     <>
       <div className='flex flex-col h-screen'>
+        <AlertPage />
         {renderPage()}
         <Footer />
       </div>
