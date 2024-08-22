@@ -25,10 +25,8 @@ function AuctionList() {
             request,
             (newAuctions) => {
                 setAuctions([...newAuctions]);
-                alert('Auctions fetched successfully:');
             },
             () => {
-                alert('Failed to fetch auctions.');
             }
         );
     }, []);
@@ -42,10 +40,8 @@ function AuctionList() {
             (newAuctions) => {
                 setAuctions([...newAuctions]);
                 setRequest({...request, offset: request.offset + request.size});
-                alert('Auctions fetched successfully:');
             },
             () => {
-                alert('Failed to fetch auctions.');
             }
         );
     }
@@ -59,10 +55,8 @@ function AuctionList() {
             (newAuctions) => {
                 setAuctions([...newAuctions]);
                 setRequest({...request, offset: request.offset - request.size});
-                alert('Auctions fetched successfully:');
             },
             () => {
-                alert('Failed to fetch auctions.');
             }
         );
     }

@@ -1,10 +1,12 @@
 import {useState} from 'react';
+import {useLoginStore} from "../store/LoginStatusStore";
 import {usePageStore} from "../store/PageStore";
 import {SignInRequest} from "../api/user/type";
 import {signInApi} from "../api/user/api";
 
 function LoginPage() {
     const {currentPage, setPage} = usePageStore();
+    const {isLogin, setIsLogin} = useLoginStore();
 
     const [request, setRequest] = useState<SignInRequest>({
         signInId: '',
@@ -19,8 +21,10 @@ function LoginPage() {
         signInApi(request,
             () => {
                 setPage('home');
+                setIsLogin(true);
             },
             () => {
+                setIsLogin(false);
             }
         );
     }
