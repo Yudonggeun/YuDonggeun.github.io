@@ -1,8 +1,11 @@
 import {useState} from 'react';
 import {signUpApi} from "../api/user/api";
 import {SignUpRequest} from "../api/user/type";
+import {usePageStore} from "../store/PageStore";
 
 function SignUpPage() {
+
+    const {currentPage, setPage} = usePageStore();
 
     const [request, setRequest] = useState<SignUpRequest>({
         signUpId: '',
@@ -25,7 +28,7 @@ function SignUpPage() {
     const requestSignUp = () => {
         signUpApi(request,
             () => {
-                alert("회원가입에 성공했습니다.");
+                setPage('login');
             },
             () => {
                 alert("회원가입에 실패했습니다.");

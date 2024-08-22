@@ -42,8 +42,8 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
             imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
             originPrice: auctionDetailItem.originPrice,
             currentPrice: auctionDetailItem.currentPrice,
-            currentStock: auctionDetailItem.stock,
-            totalStock: auctionDetailItem.stock,
+            currentStock: auctionDetailItem.currentStock,
+            originStock: auctionDetailItem.originStock,
             maximumPurchaseLimitCount: auctionDetailItem.maximumPurchaseLimitCount,
             pricePolicy: auctionDetailItem.pricePolicy,
             variationDuration: auctionDetailItem.variationDuration,
@@ -53,25 +53,6 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
         },
         () => {
           alert("상품 정보를 가져오는데 실패했습니다.");
-          setAuction({
-            auctionId: 1,
-            sellerId: 2,
-            productName: "실패시 테스트 상품",
-            description: "이 1970년식 혼다 CB750 K0는 매우 희귀하고 오리지널 상태의 바이크입니다. 이 바이크는 2009년에 미국에서 영국으로 수입되었습니다.",
-            imageUrl: "https://cdn.usegalileo.ai/stability/441b95f1-3714-46e5-b38e-7570c57700cd.png",
-            originPrice: 10000,
-            currentPrice: 5000,
-            currentStock:50,
-            totalStock: 100,
-            maximumPurchaseLimitCount: 10,
-            pricePolicy: {
-              type: "CONSTANT",
-              variationWidth: 10
-            },
-            variationDuration: "PT1M",
-            startedAt: new Date('2024-08-15T14:18:00'),
-            finishedAt: new Date('2024-08-15T15:18:00'),
-          });
         }
     );
   }, []);
@@ -132,13 +113,13 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
           <div>
             <div className="flex justify-between">
               <p className="text-base font-medium">경매 진행률</p>
-              <p className="text-sm">{auction.currentStock / auction.totalStock * 100}%</p>
+              <p className="text-sm">{100 - (auction.currentStock / auction.originStock * 100)}%</p>
             </div>
             <progress className="progress progress-primary w-full"
-                      value={auction.currentStock / auction.totalStock * 100} max="100"></progress>
+                      value={100 - (auction.currentStock / auction.originStock * 100)} max="100"></progress>
             <div className="flex justify-between mt-2">
               <p className="text-sm">현재 재고: {auction.currentStock}개</p>
-              <p className="text-sm">총 재고: {auction.totalStock}개</p>
+              <p className="text-sm">총 재고: {auction.originStock}개</p>
             </div>
           </div>
 

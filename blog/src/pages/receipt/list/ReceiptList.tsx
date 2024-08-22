@@ -3,9 +3,11 @@ import {ReceiptSimpleInfo} from "./type";
 import {useEffect, useState} from "react";
 import {ReceiptsRequest} from "../../../api/receipt/type";
 import {requestReceiptList} from "../../../api/receipt/api";
+import {usePageStore} from "../../../store/PageStore";
 
 function ReceiptListPage() {
 
+    const { currentPage, setPage } = usePageStore();
     const [receiptList, setReceiptList] = useState<ReceiptSimpleInfo[]>([]);
     const [request, setRequest] = useState<ReceiptsRequest>({
         offset: 0,
@@ -16,7 +18,6 @@ function ReceiptListPage() {
         requestReceiptList(
             request,
             (newReceipts) => {
-                alert('Receipts fetched successfully:');
                 const receipts: Array<ReceiptSimpleInfo> = newReceipts.map(receipt => ({
                     id: receipt.id,
                     type: receipt.type,
@@ -27,7 +28,8 @@ function ReceiptListPage() {
                 setReceiptList([...receipts]);
             },
             () => {
-                alert('Failed to fetch receipts.');
+                console.log('Failed to fetch receipts.');
+                setPage('home');
             }
         );
     }, []);

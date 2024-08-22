@@ -1,6 +1,7 @@
 import {usePageStore} from "../../../store/PageStore";
 import {getKrDateFormat} from "../../../util/DateUtil";
 import {getPriceFormatted} from "../../../util/NumberUtil";
+import {useAuctionStore} from "../../../store/AuctionStore";
 
 interface AuctionSimpleInfo {
     id: number;
@@ -23,8 +24,10 @@ function AuctionListElement(
 ) {
 
     const {currentPage, setPage} = usePageStore();
+    const {auctionId, setAuctionId} = useAuctionStore();
 
     const changePage = (page: string) => {
+        setAuctionId(id);
         setPage(page);
     }
 

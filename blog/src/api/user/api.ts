@@ -26,7 +26,7 @@ async function signUpApi(
 
 async function signInApi(
     data: SignInRequest,
-    onSuccess: (sessionId: string) => void,
+    onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
@@ -40,23 +40,7 @@ async function signInApi(
             body: JSON.stringify(data),
         });
         if (response.ok) {
-
-            // print reponse headers keys and values
-            response.headers.forEach((value, key) => {
-                console.log(key, value);
-            });
-
-            const cookies = response.headers.get('set-cookie');
-            console.log(cookies);
-
-            // cookies?.forEach((cookie) => {
-            //     const [key, value] = cookie.split('=');
-            //     console.log(key, value);
-            //     if (key === 'JSESSIONID') {
-            //         const sessionId = value;
-            //         onSuccess(sessionId);
-            //     }
-            // });
+            onSuccess();
         } else {
             onFailure();
         }

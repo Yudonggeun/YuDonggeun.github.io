@@ -6,23 +6,25 @@ async function requestReceiptList(
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/receipts/buyer', {
+        console.log('Fetching receipts...', data);
+        const response = await fetch(`http://localhost:8080/receipts/buyer?offset=${data.offset}&size=${data.size}`, {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
             },
-            body: JSON.stringify(data),
         });
 
         if (response.ok) {
             const receipts: ReceiptSimpleItem[] = await response.json();
             onSuccess(receipts);
         } else {
+            console.log('Failed to fetch receipts.', response.status);
             onFailure();
         }
     } catch (error) {
+        console.log('Failed to fetch receipts.', error);
         onFailure();
     }
 }

@@ -19,6 +19,8 @@ interface AuctionDetailItem {
     productName: string;
     originPrice: number;
     currentPrice: number;
+    originStock: number;
+    currentStock: number;
     stock: number;
     maximumPurchaseLimitCount: number;
     pricePolicy: PricePolicy;

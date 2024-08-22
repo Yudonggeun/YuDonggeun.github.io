@@ -6,12 +6,11 @@ async function requestAuctionList(
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/auctions', {
+        const response = await fetch(`http://localhost:8080/auctions?size=${data.size}&offset=${data.offset}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
         });
 
         if (response.ok) {
@@ -21,6 +20,7 @@ async function requestAuctionList(
             onFailure();
         }
     } catch (error) {
+        console.error('Failed to fetch auctions.', error);
         onFailure();
     }
 }
@@ -46,6 +46,7 @@ async function requestAuctionDetail(
             onFailure();
         }
     } catch (error) {
+        console.error('Failed to fetch auction detail.', error);
         onFailure();
     }
 }

@@ -19,7 +19,7 @@ interface AuctionDetailInfo {
     originPrice: number;
     currentPrice: number;
     currentStock: number;
-    totalStock: number;
+    originStock: number;
     maximumPurchaseLimitCount: number;
     pricePolicy: PricePolicy;
     variationDuration: string;

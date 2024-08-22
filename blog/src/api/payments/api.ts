@@ -9,6 +9,8 @@ async function chargePointsApi(
     try {
         const response = await fetch('http://localhost:8080/payments/points/charge', {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 'Accept': 'application/json',
