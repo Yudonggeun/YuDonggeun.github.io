@@ -32,22 +32,36 @@ async function signInApi(
     try {
         const response = await fetch('http://localhost:8080/auth/signin', {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         });
         if (response.ok) {
-            const sessionId = response.headers.get('JSESSIONID');
-            if (sessionId) {
-                onSuccess(sessionId);
-            } else {
-                onFailure();
-            }
+
+            // print reponse headers keys and values
+            response.headers.forEach((value, key) => {
+                console.log(key, value);
+            });
+
+            const cookies = response.headers.get('set-cookie');
+            console.log(cookies);
+
+            // cookies?.forEach((cookie) => {
+            //     const [key, value] = cookie.split('=');
+            //     console.log(key, value);
+            //     if (key === 'JSESSIONID') {
+            //         const sessionId = value;
+            //         onSuccess(sessionId);
+            //     }
+            // });
         } else {
             onFailure();
         }
     } catch (error) {
+        console.error(error);
         onFailure();
     }
 }

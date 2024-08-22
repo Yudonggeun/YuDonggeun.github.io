@@ -3,12 +3,10 @@ import {ReceiptSimpleInfo} from "./type";
 import {useEffect, useState} from "react";
 import {ReceiptsRequest} from "../../../api/receipt/type";
 import {requestReceiptList} from "../../../api/receipt/api";
-import {useSession} from "../../../store/LoginStore";
 
 function ReceiptListPage() {
 
     const [receiptList, setReceiptList] = useState<ReceiptSimpleInfo[]>([]);
-    const {sessionId, setSessionId} = useSession();
     const [request, setRequest] = useState<ReceiptsRequest>({
         offset: 0,
         size: 20,
@@ -17,7 +15,6 @@ function ReceiptListPage() {
     useEffect(() => {
         requestReceiptList(
             request,
-            sessionId,
             (newReceipts) => {
                 alert('Receipts fetched successfully:');
                 const receipts: Array<ReceiptSimpleInfo> = newReceipts.map(receipt => ({
