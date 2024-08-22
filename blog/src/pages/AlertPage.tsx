@@ -12,11 +12,11 @@ const AlertPage = () => {
 
     return (
         <div
-                className='absolute h-screen w-screen z-50'
+                className={`absolute h-screen w-screen ${isShow ? "" : "hidden z-50"}`}
                 onClick={onClick}
          >
             <div
-                className={`p-[10px] fixed w-full z-50 ${isShow ? "" : "hidden"}`}
+                className={`p-[10px] fixed w-full ${isShow ? "" : "hidden z-50"}`}
             >
                 <div role="alert" className="alert">
                     <svg
