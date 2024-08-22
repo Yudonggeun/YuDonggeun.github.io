@@ -9,6 +9,7 @@ import Footer from "./pages/Footer";
 import SignUpPage from "./pages/SignUp";
 import {usePageStore} from "./store/PageStore";
 import {useAuctionStore} from "./store/AuctionStore";
+import ReceiptDetailPage from "./pages/receipt/detail/ReceiptDetail";
 
 function App() {
 
@@ -27,6 +28,8 @@ function App() {
         return <ChargePointPage />;
       case 'receiptList':
         return <ReceiptListPage />;
+      case 'receiptDetail':
+        return <ReceiptDetailPage />;
       case 'signup':
         return <SignUpPage />;
     }

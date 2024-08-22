@@ -12,4 +12,17 @@ interface ReceiptSimpleItem {
     price: number;
 }
 
-export type { ReceiptsRequest, ReceiptSimpleItem };
+interface ReceiptDetailItem {
+    receiptId: number;
+    productName: string;
+    price: number;
+    quantity: number;
+    receiptStatus: 'PURCHASED' | 'REFUNDED';
+    auctionId: number;
+    sellerId: number;
+    buyerId: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type { ReceiptsRequest, ReceiptSimpleItem, ReceiptDetailItem };

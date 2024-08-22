@@ -1,4 +1,4 @@
-import {ReceiptSimpleItem, ReceiptsRequest} from "./type";
+import {ReceiptDetailItem, ReceiptSimpleItem, ReceiptsRequest} from "./type";
 
 async function requestReceiptList(
     data: ReceiptsRequest,
@@ -29,4 +29,30 @@ async function requestReceiptList(
     }
 }
 
-export {requestReceiptList};
+async function requestReceiptDetail(
+    receiptId: number,
+    onSuccess: (receipt: ReceiptDetailItem) => void,
+    onFailure: () => void
+) {
+    try {
+        const response = await fetch(`http://localhost:8080/receipts/${receiptId}`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
+        });
+
+        if (response.ok) {
+            const receipt: ReceiptDetailItem = await response.json();
+            onSuccess(receipt);
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        onFailure();
+    }
+}
+
+export {requestReceiptList, requestReceiptDetail};
