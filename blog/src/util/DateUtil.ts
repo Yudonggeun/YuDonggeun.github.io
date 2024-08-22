@@ -1,13 +1,13 @@
 // Date 시간을 한국 시간으로 변환하는 함수
 function getKrDateFormat(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+    return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
 }
 
 // iso 8601 형식의 문자열을 n분으로 변환하는 함수
@@ -34,4 +34,18 @@ function getMsFromIso8601Duration(duration: string): number {
     }
 }
 
-export { getKrDateFormat, formatVariationDuration, getMsFromIso8601Duration };
+function getTimeDifferenceInMs(date1: Date, date2: Date): number {
+    const timeDifference = date2.getTime() - date1.getTime();
+    if(timeDifference < 0) {
+        return -timeDifference;
+    } else{
+        return timeDifference;
+    }
+}
+
+export { 
+    getKrDateFormat, 
+    formatVariationDuration, 
+    getMsFromIso8601Duration,
+    getTimeDifferenceInMs,
+};

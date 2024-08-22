@@ -51,7 +51,7 @@ function ReceiptDetailPage() {
     }
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 grow mb-[64px]">
             <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="p-6">
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">거래 내역 상세 보기</h2>

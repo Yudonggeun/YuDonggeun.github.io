@@ -35,7 +35,7 @@ function ReceiptListPage() {
     }, []);
 
     return (
-        <div className="bg-slate-50">
+        <div className="grow mb-[64px]">
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-3xl font-bold text-center mb-6 text-[#62CBC6]">거래 내역</h1>
 

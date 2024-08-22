@@ -7,8 +7,8 @@ import ChargePointPage from './pages/ChargePoint';
 import ReceiptListPage from './pages/receipt/list/ReceiptList';
 import Footer from "./pages/Footer";
 import SignUpPage from "./pages/SignUp";
-import {usePageStore} from "./store/PageStore";
-import {useAuctionStore} from "./store/AuctionStore";
+import { usePageStore } from "./store/PageStore";
+import { useAuctionStore } from "./store/AuctionStore";
 import ReceiptDetailPage from "./pages/receipt/detail/ReceiptDetail";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       case 'home':
         return <AuctionList />;
       case 'auctionDetail':
-        return <AuctionDetails auctionId={auctionId}/>;
+        return <AuctionDetails auctionId={auctionId} />;
       case 'login':
         return <LoginPage />;
       case 'charge':
@@ -36,12 +36,12 @@ function App() {
   }
 
   return (
-      <>
-        <div>
-          {renderPage()}
-        </div>
+    <>
+      <div className='flex flex-col h-screen'>
+        {renderPage()}
         <Footer />
-      </>
+      </div>
+    </>
   );
 }
 

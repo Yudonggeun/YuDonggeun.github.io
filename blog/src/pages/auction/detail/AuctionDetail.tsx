@@ -84,7 +84,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mb-[64px]">
 
       <div className="card bg-base-100 shadow-xl">
         <figure>

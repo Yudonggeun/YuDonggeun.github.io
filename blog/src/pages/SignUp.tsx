@@ -37,9 +37,9 @@ function SignUpPage() {
     }
 
     return (
-        <div className="bg-slate-50">
+        <div className="grow mb-[64px]">
             <div className="container mx-auto px-4 py-8 max-w-lg">
-                <h1 className="text-3xl font-bold text-center mb-6 text-[#62CBC6]">회원가입</h1>
+                <h1 className="text-3xl font-bold text-center mb-6 text-[#62CBC6]">환영합니다!</h1>
 
                 <form className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
                     <div className="mb-4">
