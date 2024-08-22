@@ -50,4 +50,28 @@ async function signInApi(
     }
 }
 
-export {signUpApi, signInApi};
+async function signOut(
+    onSuccess: () => void,
+    onFailure: () => void
+) {
+    try {
+        const response = await fetch('http://localhost:8080/auth/signout', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+
+        if (response.ok) {
+            onSuccess();
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        onFailure();
+    }
+}
+
+export {signUpApi, signInApi, signOut};

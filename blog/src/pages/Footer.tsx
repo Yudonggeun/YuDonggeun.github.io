@@ -1,6 +1,7 @@
 import {usePageStore} from "../store/PageStore";
 import React from "react";
 import {useLoginStore} from "../store/LoginStatusStore";
+import {signOut} from "../api/user/api";
 
 function Footer() {
 
@@ -12,7 +13,15 @@ function Footer() {
   }
 
   const logout = () => {
-      alert("로그아웃 안됨!");
+      signOut(
+            () => {
+                setIsLogin(false);
+                setPage('home');
+            },
+            () => {
+                console.log('Failed to sign out.');
+            }
+      )
   }
 
   return (
