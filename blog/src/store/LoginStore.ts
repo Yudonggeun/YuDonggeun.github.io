@@ -5,7 +5,7 @@ interface Session {
     setSessionId: (page: string) => void;
 }
 
-export const usePageStore = create<Session>((set) => ({
+export const useSession = create<Session>((set) => ({
     sessionId: '', // 기본 페이지 설정
     setSessionId: (newSessionId: string) => set({sessionId: newSessionId}),
 }));

@@ -3,7 +3,6 @@ import {getPriceFormatted} from "../../../util/NumberUtil";
 
 function ReceiptListElement({
     id,
-    authorId,
     type,
     productName,
     quantity,
