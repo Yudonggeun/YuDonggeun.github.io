@@ -1,65 +1,57 @@
-import {PricePolicy, PercentagePricePolicy, ConstantPricePolicy} from "./type";
+import {PercentagePricePolicy, ConstantPricePolicy, AuctionDetailInfo} from "./type";
 import {getPriceFormatted} from "../../../util/NumberUtil";
 import {formatVariationDuration, getMsFromIso8601Duration} from "../../../util/DateUtil";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 interface PricePolicyElementProps {
-    pricePolicy: PricePolicy;
-    originPrice: number;
-    currentPrice: number;
-    variationDuration: string;
     priceLimit: number;
+    auction: AuctionDetailInfo,
+    setAuction: React.Dispatch<React.SetStateAction<AuctionDetailInfo | null>>
 }
 
 function PricePolicyElement(
     {
-        pricePolicy,
-        originPrice,
-        currentPrice,
-        variationDuration,
-        priceLimit
+        priceLimit,
+        auction,
+        setAuction
     }: PricePolicyElementProps) {
 
-    const discountStrategyElement = document.getElementById('discountStrategy');
-
-    const [price, setPrice] = useState<number>(currentPrice);
-
     useEffect(() => {
-        const interval = getMsFromIso8601Duration(variationDuration);
+        const interval = getMsFromIso8601Duration(auction.variationDuration);
         const intervalId = setInterval(() => {
             const nextPrice = calculateNextPrice();
 
             if(priceLimit <= nextPrice) {
-                setPrice(nextPrice);
+                setAuction({...auction, currentPrice: nextPrice});
             }
 
         }, interval);
 
         return () => clearInterval(intervalId);
-    }, [variationDuration]);
+    }, [auction.variationDuration]);
 
     function calculateNextPrice() : number {
-        if (pricePolicy.type === "CONSTANT") {
-            return  price - (pricePolicy as ConstantPricePolicy).variationWidth;
-        } else if (pricePolicy.type === "PERCENTAGE") {
-            return  price - (currentPrice * (pricePolicy as PercentagePricePolicy).discountRate / 100);
+        if (auction.pricePolicy.type === "CONSTANT") {
+            return  auction.currentPrice - (auction.pricePolicy as ConstantPricePolicy).variationWidth;
+        } else if (auction.pricePolicy.type === "PERCENTAGE") {
+            return  auction.currentPrice - (auction.currentPrice * (auction.pricePolicy as PercentagePricePolicy).discountRate / 100);
         } else {
             return -1;
         }
     }
 
     const component = () => {
-        switch (pricePolicy.type) {
+        switch (auction.pricePolicy.type) {
             case "CONSTANT":
                 return (
                     <div id="discountStrategy" className="text-gray-700 text-lg">
-                        {formatVariationDuration(variationDuration)}후 <span className="text-[#62CBC6] font-semibold">{pricePolicy.variationWidth}원</span> 할인이 적용됩니다.
+                        {formatVariationDuration(auction.variationDuration)}후 <span className="text-[#62CBC6] font-semibold">{auction.pricePolicy.variationWidth}원</span> 할인이 적용됩니다.
                     </div>
                 )
             case "PERCENTAGE":
                 return (
                     <div id="discountStrategy" className="text-gray-700 text-lg">
-                        {formatVariationDuration(variationDuration)}후 <span className="text-[#62CBC6] font-semibold">${pricePolicy.discountRate}%</span> 할인이 적용됩니다.
+                        {formatVariationDuration(auction.variationDuration)}후 <span className="text-[#62CBC6] font-semibold">${auction.pricePolicy.discountRate}%</span> 할인이 적용됩니다.
                     </div>
                 )
             default:
@@ -81,7 +73,7 @@ function PricePolicyElement(
                 <div className="grid grid-cols-2">
                     <div>
                         <h2 className="text-2xl font-bold pt-5">현재 가격</h2>
-                        <h1 className="text-2xl font-bold">{getPriceFormatted(price)}</h1>
+                        <h1 className="text-2xl font-bold">{getPriceFormatted(auction.currentPrice)}</h1>
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold pt-5">다음 가격</h2>

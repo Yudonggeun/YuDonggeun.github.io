@@ -29,5 +29,14 @@ interface AuctionDetailItem {
     finishedAt: string;
 }
 
+interface AuctionPurchaseRequest {
+    quantity: number;
+    price: number;
+}
 
-export type { AuctionsRequest, AuctionItem, AuctionDetailItem };
+export type {
+    AuctionsRequest,
+    AuctionItem,
+    AuctionDetailItem,
+    AuctionPurchaseRequest,
+};

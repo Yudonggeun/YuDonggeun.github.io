@@ -2,12 +2,14 @@ import {getKrDateFormat, formatVariationDuration} from "../../../util/DateUtil";
 import {useEffect, useState} from "react";
 import {AuctionDetailInfo} from "./type";
 import PricePolicyElement from "./PricePolicyElement";
-import {requestAuctionDetail} from "../../../api/auction/api";
+import {requestAuctionBid, requestAuctionDetail} from "../../../api/auction/api";
+import {usePageStore} from "../../../store/PageStore";
 
 
 
 function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
+  const {currentPage, setPage} = usePageStore();
   const [auction, setAuction] = useState<AuctionDetailInfo | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -27,6 +29,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
     }
   }
 
+  // 경매 단건 조회 요청
   useEffect(() => {
     if(auctionId === undefined) {
       return;
@@ -56,6 +59,20 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
         }
     );
   }, []);
+
+  const onClickBidButton = () => {
+    requestAuctionBid(
+        auction?.auctionId!,
+        {quantity: quantity, price: auction!.currentPrice},
+        () => {
+          setPage('home');
+          alert("입찰에 성공했습니다.");
+        },
+        () => {
+          alert("입찰에 실패했습니다.");
+        }
+    );
+  }
 
   if(auction === null) {
     return <div>로딩 중...</div>;
@@ -97,7 +114,6 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
             {auction.description}
           </p>
 
-
           <div className="flex items-center gap-4 py-2">
             <div>
               <p className="text-base font-medium">경매 종료 시간</p>
@@ -124,11 +140,9 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
           </div>
 
           <PricePolicyElement
-              pricePolicy={auction.pricePolicy}
-              currentPrice={auction.currentPrice}
-              originPrice={auction.originPrice}
-              variationDuration={auction.variationDuration}
               priceLimit={0}
+              auction={auction}
+              setAuction={setAuction}
           />
 
           <div className="mt-4">
@@ -159,7 +173,10 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
               최대 구매 가능 수량은 <span className="text-primary">{auction.maximumPurchaseLimitCount}개</span>입니다.
             </div>
             <div className="card-actions justify-end ml-4 mt-4">
-              <button className="btn btn-primary">입찰하기</button>
+              <button
+                  className="btn btn-primary"
+                  onClick={onClickBidButton}
+              >입찰하기</button>
             </div>
 
 

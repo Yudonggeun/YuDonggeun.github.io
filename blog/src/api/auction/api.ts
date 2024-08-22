@@ -1,4 +1,4 @@
-import {AuctionDetailItem, AuctionItem, AuctionsRequest} from "./type";
+import {AuctionDetailItem, AuctionItem, AuctionPurchaseRequest, AuctionsRequest} from "./type";
 
 async function requestAuctionList(
     data: AuctionsRequest,
@@ -51,4 +51,41 @@ async function requestAuctionDetail(
     }
 }
 
-export {requestAuctionList, requestAuctionDetail};
+async function requestAuctionBid(
+    auctionId: number,
+    request: AuctionPurchaseRequest,
+    onSuccess: () => void,
+    onFailure: () => void
+) {
+    try {
+        const response = await fetch(`http://localhost:8080/auctions/${auctionId}/purchase`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                price: request.price,
+                quantity: request.quantity,
+            }),
+        });
+
+        if (response.ok) {
+            onSuccess();
+        } else {
+            onFailure();
+        }
+
+    } catch (error) {
+        console.error('Failed to bid auction.', error);
+        onFailure();
+    }
+}
+
+export {
+    requestAuctionList,
+    requestAuctionDetail,
+    requestAuctionBid,
+};
