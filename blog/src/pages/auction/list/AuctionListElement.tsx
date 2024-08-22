@@ -9,7 +9,6 @@ interface AuctionSimpleInfo {
     price: number;
     startedAt: Date;
     endedAt: Date;
-    imageUrl: string;
 }
 
 function AuctionListElement(
@@ -19,7 +18,6 @@ function AuctionListElement(
         price,
         startedAt,
         endedAt,
-        imageUrl,
     }: AuctionSimpleInfo
 ) {
 
@@ -37,12 +35,6 @@ function AuctionListElement(
             <div className="card-body">
                 <h2 className="card-title text-base">{title}</h2>
             </div>
-            <figure className="aspect-square">
-                <img
-                    src={imageUrl}
-                    alt="Rolex Submariner"
-                />
-            </figure>
             <div className="card-body">
                 <p className="text-sm text-[#62CBC6]">시작 시간: {getKrDateFormat(startedAt)}</p>
                 <p className="text-sm text-[#62CBC6]">종료 시간: {getKrDateFormat(endedAt)}</p>
@@ -53,12 +45,3 @@ function AuctionListElement(
 }
 
 export default AuctionListElement;
-
-// const auction: AuctionSimpleInfo = {
-//     id: 1,
-//     title: '롤렉스 서브마리너',
-//     price: 10000000,
-//     startedAt: new Date('2000-10-08T13:30:00'),
-//     endedAt: new Date('2004-10-09T13:30:00'),
-//     imageUrl: 'https://cdn.usegalileo.ai/stability/61d9ba43-1402-4c08-acd8-5b4d04828fb2.png'
-// }

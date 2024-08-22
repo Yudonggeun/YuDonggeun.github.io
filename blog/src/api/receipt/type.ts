@@ -17,7 +17,7 @@ interface ReceiptDetailItem {
     productName: string;
     price: number;
     quantity: number;
-    receiptStatus: 'PURCHASED' | 'REFUNDED';
+    receiptStatus: 'PURCHASED' | 'REFUND';
     auctionId: number;
     sellerId: number;
     buyerId: number;

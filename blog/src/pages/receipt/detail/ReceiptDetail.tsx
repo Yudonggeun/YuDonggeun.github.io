@@ -1,13 +1,15 @@
 import {useReceiptStore} from "../../../store/ReceiptStore";
 import {useEffect, useState} from "react";
-import {requestReceiptDetail} from "../../../api/receipt/api";
+import {requestReceiptDetail, requestRefund} from "../../../api/receipt/api";
 import {ReceiptDetailItem} from "../../../api/receipt/type";
 import {getPriceFormatted} from "../../../util/NumberUtil";
 import {getKrDateFormat} from "../../../util/DateUtil";
+import {usePageStore} from "../../../store/PageStore";
 
 function ReceiptDetailPage() {
 
     const {receiptId, setReceiptId} = useReceiptStore();
+    const {currentPage, setPage} = usePageStore();
     const [receiptDetail, setReceiptDetail] = useState<ReceiptDetailItem | null>(null);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ function ReceiptDetailPage() {
         )
     }, [receiptId]);
 
-    if(receiptDetail === null) {
+    if (receiptDetail === null) {
         return (
             <div className="container mx-auto p-6">
                 <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -35,7 +37,20 @@ function ReceiptDetailPage() {
         );
     }
 
-  return (
+    const onClickRefund = () => {
+        requestRefund(
+            receiptId!,
+            () => {
+                console.log('Refund success.');
+                setPage('home');
+            },
+            () => {
+                console.log('Refund failed.');
+            }
+        )
+    }
+
+    return (
         <div className="container mx-auto p-6">
             <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="p-6">
@@ -93,13 +108,21 @@ function ReceiptDetailPage() {
                         </p>
                     </div>
 
-                    <div className="text-center mt-6">
-                        <button className="btn btn-primary bg-[#62CBC6] border-0 text-white">돌아가기</button>
-                    </div>
+                    {
+                        receiptDetail?.receiptStatus === 'REFUND' ? ''
+                            :
+                            < div className="text-center mt-6">
+                        <button
+                        className="btn btn-primary bg-[#62CBC6] border-0 text-white"
+                        onClick={onClickRefund}
+                        >취소하기
+                        </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-  );
+    );
 }
 
 export default ReceiptDetailPage;

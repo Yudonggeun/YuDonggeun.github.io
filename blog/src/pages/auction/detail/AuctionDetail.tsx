@@ -36,7 +36,6 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
     }
     requestAuctionDetail(auctionId,
         (auctionDetailItem) => {
-            alert("상품 정보를 성공적으로 가져왔습니다.");
           setAuction({
             auctionId: auctionDetailItem.auctionId,
             sellerId: auctionDetailItem.sellerId,
@@ -75,31 +74,17 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
   }
 
   if(auction === null) {
-    return <div>로딩 중...</div>;
+    return <div className="container mx-auto p-6">
+      <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-6">
+          <p>상세페이지를 불러오는 중입니다...</p>
+        </div>
+      </div>
+    </div>
   }
 
   return (
     <div className="container mx-auto p-4">
-      <div className="navbar bg-base-100">
-        <div className="navbar-start">
-          <button className="btn btn-ghost btn-square">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
 
       <div className="card bg-base-100 shadow-xl">
         <figure>

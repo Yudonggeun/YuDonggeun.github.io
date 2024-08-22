@@ -55,4 +55,29 @@ async function requestReceiptDetail(
     }
 }
 
-export {requestReceiptList, requestReceiptDetail};
+async function requestRefund(
+    receiptId: number,
+    onSuccess: () => void,
+    onFailure: () => void
+) {
+    try {
+        const response = await fetch(`http://localhost:8080/receipts/${receiptId}/refund`, {
+            method: 'PUT',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
+        });
+
+        if (response.ok) {
+            onSuccess();
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        onFailure();
+    }
+}
+
+export {requestReceiptList, requestReceiptDetail, requestRefund};

@@ -88,7 +88,6 @@ function AuctionList() {
                                     price={auction.price}
                                     startedAt={new Date(auction.startedAt)}
                                     endedAt={new Date(auction.finishedAt)}
-                                    imageUrl={'https://cdn.usegalileo.ai/stability/61d9ba43-1402-4c08-acd8-5b4d04828fb2.png'}
                                 />
                             ))
                         }
