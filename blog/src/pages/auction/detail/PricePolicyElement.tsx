@@ -1,7 +1,7 @@
-import { PercentagePricePolicy, ConstantPricePolicy, AuctionDetailInfo } from "./type";
-import { getPriceFormatted } from "../../../util/NumberUtil";
-import { formatVariationDuration, getMsFromIso8601Duration, getTimeDifferenceInMs } from "../../../util/DateUtil";
-import { useEffect } from "react";
+import {PercentagePricePolicy, ConstantPricePolicy, AuctionDetailInfo} from "./type";
+import {getPriceFormatted} from "../../../util/NumberUtil";
+import {formatVariationDuration, getMsFromIso8601Duration} from "../../../util/DateUtil";
+import {useEffect} from "react";
 
 interface PricePolicyElementProps {
     priceLimit: number;
@@ -17,29 +17,24 @@ function PricePolicyElement(
     }: PricePolicyElementProps) {
 
     useEffect(() => {
-
+        const interval = getMsFromIso8601Duration(auction.variationDuration);
         const intervalId = setInterval(() => {
+            const nextPrice = calculateNextPrice();
 
-            const durationMs = getMsFromIso8601Duration(auction.variationDuration);
-            const diffMs = getTimeDifferenceInMs(auction.startedAt, auction.finishedAt);
-
-            if (diffMs % durationMs === 0) {
-                const nextPrice = calculateNextPrice();
-                if (priceLimit <= nextPrice) {
-                    setAuction({ ...auction, currentPrice: nextPrice });
-                }
+            if(priceLimit <= nextPrice) {
+                setAuction({...auction, currentPrice: nextPrice});
             }
 
-        }, 1000);
+        }, interval);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [auction.variationDuration]);
 
-    function calculateNextPrice(): number {
+    function calculateNextPrice() : number {
         if (auction.pricePolicy.type === "CONSTANT") {
-            return auction.currentPrice - (auction.pricePolicy as ConstantPricePolicy).variationWidth;
+            return  auction.currentPrice - (auction.pricePolicy as ConstantPricePolicy).variationWidth;
         } else if (auction.pricePolicy.type === "PERCENTAGE") {
-            return auction.currentPrice - (auction.currentPrice * (auction.pricePolicy as PercentagePricePolicy).discountRate / 100);
+            return  auction.currentPrice - (auction.currentPrice * (auction.pricePolicy as PercentagePricePolicy).discountRate / 100);
         } else {
             return -1;
         }
@@ -61,9 +56,9 @@ function PricePolicyElement(
                 )
             default:
                 return (
-                    <div>
-                        이 상품에 대한 할인 정보가 없습니다.
-                    </div>
+                  <div>
+                      이 상품에 대한 할인 정보가 없습니다.
+                  </div>
                 )
         }
     }

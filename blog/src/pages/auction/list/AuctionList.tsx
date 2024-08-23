@@ -55,7 +55,8 @@ function AuctionList() {
 
 
     return (
-        <div className="grow flex flex-col justify-between mb-[64px]">
+        // <div className="grow flex flex-col justify-between mb-[64px]">
+        <>
             <div className="flex flex-col navbar bg-base-100 p-4 relative">
                 <div className="navbar-center w-full flex justify-center">
                     <span className="text-lg font-bold">Lucky Vicky</span>
@@ -106,7 +107,7 @@ function AuctionList() {
                     다음 페이지
                 </button>
             </div>
-        </div>
+        </>
     );
 }
 

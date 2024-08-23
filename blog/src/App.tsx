@@ -11,6 +11,7 @@ import { usePageStore } from "./store/PageStore";
 import { useAuctionStore } from "./store/AuctionStore";
 import ReceiptDetailPage from "./pages/receipt/detail/ReceiptDetail";
 import AlertPage from './pages/AlertPage';
+import ContentLayout from "./layout/ContentLayout";
 
 function App() {
 
@@ -38,9 +39,11 @@ function App() {
 
   return (
     <>
+      <AlertPage />
       <div className='flex flex-col h-screen'>
-        <AlertPage />
-        {renderPage()}
+        <ContentLayout>
+          {renderPage()}
+        </ContentLayout>
         <Footer />
       </div>
     </>

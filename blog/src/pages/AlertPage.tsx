@@ -10,13 +10,17 @@ const AlertPage = () => {
         setMessage('');
     }
 
+    if(!isShow){
+        return (<> </>);
+    }
+
     return (
         <div
-                className={`absolute h-screen w-screen ${isShow ? "" : "hidden z-50"}`}
+                className={`absolute h-[10000000px] w-screen bg-slate-50/50 z-50`}
                 onClick={onClick}
          >
             <div
-                className={`p-[10px] fixed w-full ${isShow ? "" : "hidden z-50"}`}
+                className={`p-[10px] fixed w-full`}
             >
                 <div role="alert" className="alert">
                     <svg

@@ -4,12 +4,16 @@ import {AuctionDetailInfo} from "./type";
 import PricePolicyElement from "./PricePolicyElement";
 import {requestAuctionBid, requestAuctionDetail} from "../../../api/auction/api";
 import {usePageStore} from "../../../store/PageStore";
+import {useAlertStore} from "../../../store/AlertStore";
+import useAlert from "../../../hooks/useAlert";
+import {getAuctionProgress} from "../../../util/NumberUtil";
 
 
 
 function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
   const {currentPage, setPage} = usePageStore();
+  const { showAlert } = useAlert();
   const [auction, setAuction] = useState<AuctionDetailInfo | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -65,10 +69,9 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
         {quantity: quantity, price: auction!.currentPrice},
         () => {
           setPage('home');
-          alert("입찰에 성공했습니다.");
         },
         () => {
-          alert("입찰에 실패했습니다.");
+          showAlert("입찰에 실패했습니다.");
         }
     );
   }
@@ -84,8 +87,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
   }
 
   return (
-    <div className="container mx-auto p-4 mb-[64px]">
-
+    <>
       <div className="card bg-base-100 shadow-xl">
         <figure>
           <img
@@ -114,7 +116,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
           <div>
             <div className="flex justify-between">
               <p className="text-base font-medium">경매 진행률</p>
-              <p className="text-sm">{100 - (auction.currentStock / auction.originStock * 100)}%</p>
+              <p className="text-sm">{getAuctionProgress(auction.currentStock, auction.originStock)}%</p>
             </div>
             <progress className="progress progress-primary w-full"
                       value={100 - (auction.currentStock / auction.originStock * 100)} max="100"></progress>
@@ -169,7 +171,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
