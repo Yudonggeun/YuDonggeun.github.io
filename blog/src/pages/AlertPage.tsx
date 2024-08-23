@@ -1,9 +1,19 @@
-import React from 'react';
-import { useAlertStore } from '../store/AlertStore';
+import React, {useEffect} from 'react';
+import {useAlertStore} from '../store/AlertStore';
 
 const AlertPage = () => {
 
     const { isShow, message, setShow, setMessage } = useAlertStore();
+
+    useEffect(() => {
+        if (isShow) {
+            const timer = setTimeout(() => {
+                setShow(false);
+            },1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [isShow, setShow]);
 
     const onClick = () => {
         setShow(false);
@@ -16,7 +26,7 @@ const AlertPage = () => {
 
     return (
         <div
-                className={`absolute h-[10000000px] w-screen bg-slate-50/50 z-50`}
+                className={`absolute h-[10000000px] w-screen bg-slate-50/50 z-50 overflow-hidden`}
                 onClick={onClick}
          >
             <div

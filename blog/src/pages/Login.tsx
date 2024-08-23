@@ -3,10 +3,12 @@ import {useLoginStore} from "../store/LoginStatusStore";
 import {usePageStore} from "../store/PageStore";
 import {SignInRequest} from "../api/user/type";
 import {signInApi} from "../api/user/api";
+import useAlert from "../hooks/useAlert";
 
 function LoginPage() {
     const {currentPage, setPage} = usePageStore();
     const {isLogin, setIsLogin} = useLoginStore();
+    const {showAlert} = useAlert();
 
     const [request, setRequest] = useState<SignInRequest>({
         signInId: '',
@@ -22,9 +24,12 @@ function LoginPage() {
             () => {
                 setPage('home');
                 setIsLogin(true);
+                showAlert('로그인 성공하였습니다.');
             },
             () => {
                 setIsLogin(false);
+                showAlert('로그인에 실패하였습니다.');
+                setRequest({signInId: '', password: ''});
             }
         );
     }

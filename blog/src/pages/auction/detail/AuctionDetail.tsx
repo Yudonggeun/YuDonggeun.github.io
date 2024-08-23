@@ -4,7 +4,6 @@ import {AuctionDetailInfo} from "./type";
 import PricePolicyElement from "./PricePolicyElement";
 import {requestAuctionBid, requestAuctionDetail} from "../../../api/auction/api";
 import {usePageStore} from "../../../store/PageStore";
-import {useAlertStore} from "../../../store/AlertStore";
 import useAlert from "../../../hooks/useAlert";
 import {getAuctionProgress} from "../../../util/NumberUtil";
 
@@ -19,7 +18,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
   const increaseQuantity = (maximum: number) => {
     if(quantity >= maximum) {
-      alert("최대 구매 수량을 초과하였습니다.");
+      showAlert("최대 구매 수량을 초과하였습니다.");
     } else {
       setQuantity(quantity + 1);
     }
@@ -29,7 +28,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     } else {
-      alert("최소 구매 수량은 1개입니다.");
+      showAlert("최소 구매 수량은 1개입니다.");
     }
   }
 
@@ -58,7 +57,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
           });
         },
         () => {
-          alert("상품 정보를 가져오는데 실패했습니다.");
+          showAlert("상품 정보를 가져오는데 실패했습니다.");
         }
     );
   }, []);

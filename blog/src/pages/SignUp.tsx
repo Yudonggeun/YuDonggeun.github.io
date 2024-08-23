@@ -2,10 +2,12 @@ import {useState} from 'react';
 import {signUpApi} from "../api/user/api";
 import {SignUpRequest} from "../api/user/type";
 import {usePageStore} from "../store/PageStore";
+import useAlert from "../hooks/useAlert";
 
 function SignUpPage() {
 
     const {currentPage, setPage} = usePageStore();
+    const {showAlert} = useAlert();
 
     const [request, setRequest] = useState<SignUpRequest>({
         signUpId: '',
@@ -31,7 +33,7 @@ function SignUpPage() {
                 setPage('login');
             },
             () => {
-                alert("회원가입에 실패했습니다.");
+                showAlert('회원가입에 실패했습니다.');
             }
         );
     }

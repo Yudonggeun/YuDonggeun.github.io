@@ -1,11 +1,13 @@
 import {ChargePointsRequest} from "../api/payments/type";
 import {chargePointsApi} from "../api/payments/api";
 import {useState} from "react";
+import useAlert from "../hooks/useAlert";
 
 
 function ChargePointPage() {
 
     const sessionId = 'your-session-id'; // 세션 ID는 실제 값을 사용해야 합니다.
+    const {showAlert} = useAlert();
     const [request, setRequest] = useState<ChargePointsRequest>({
         amount: 0,
     });
@@ -15,10 +17,11 @@ function ChargePointPage() {
             request,
             sessionId,
             () => {
-                alert('Point charge successful!');
+                showAlert("포인트 충전 성공!")
+                setRequest({amount: 0});
             },
             () => {
-                alert('Point charge failed.');
+                showAlert("포인트 충전 실패!")
             }
         );
     }
@@ -41,6 +44,7 @@ function ChargePointPage() {
                                     placeholder="충전할 포인트를 입력하세요"
                                     min="0"
                                     step="1"
+                                    value={request.amount}
                                     onChange={(e) => setRequest({...request, amount: parseInt(e.target.value)})}
                                 />
                             </div>
