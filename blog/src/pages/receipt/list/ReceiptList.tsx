@@ -8,6 +8,7 @@ import {usePageStore} from "../../../store/PageStore";
 function ReceiptListPage() {
 
     const { currentPage, setPage } = usePageStore();
+    const baseUrl = process.env.REACT_APP_API_URL || '';
     const [receiptList, setReceiptList] = useState<ReceiptSimpleInfo[]>([]);
     const [request, setRequest] = useState<ReceiptsRequest>({
         offset: 0,
@@ -16,6 +17,7 @@ function ReceiptListPage() {
 
     useEffect(() => {
         requestReceiptList(
+            baseUrl,
             request,
             (newReceipts) => {
                 const receipts: Array<ReceiptSimpleInfo> = newReceipts.map(receipt => ({

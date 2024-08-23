@@ -1,13 +1,14 @@
 import {ReceiptDetailItem, ReceiptSimpleItem, ReceiptsRequest} from "./type";
 
 async function requestReceiptList(
+    baseUrl: string,
     data: ReceiptsRequest,
     onSuccess: (receipts: ReceiptSimpleItem[]) => void,
     onFailure: () => void
 ) {
     try {
         console.log('Fetching receipts...', data);
-        const response = await fetch(`http://localhost:8080/receipts/buyer?offset=${data.offset}&size=${data.size}`, {
+        const response = await fetch(`${baseUrl}/receipts/buyer?offset=${data.offset}&size=${data.size}`, {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
@@ -30,12 +31,13 @@ async function requestReceiptList(
 }
 
 async function requestReceiptDetail(
+    baseUrl: string,
     receiptId: number,
     onSuccess: (receipt: ReceiptDetailItem) => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch(`http://localhost:8080/receipts/${receiptId}`, {
+        const response = await fetch(`${baseUrl}/receipts/${receiptId}`, {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
@@ -56,12 +58,13 @@ async function requestReceiptDetail(
 }
 
 async function requestRefund(
+    baseUrl: string,
     receiptId: number,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch(`http://localhost:8080/receipts/${receiptId}/refund`, {
+        const response = await fetch(`${baseUrl}/receipts/${receiptId}/refund`, {
             method: 'PUT',
             mode: 'cors',
             credentials: 'include',

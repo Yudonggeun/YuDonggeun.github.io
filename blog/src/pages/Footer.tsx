@@ -7,6 +7,7 @@ function Footer() {
 
   const { currentPage, setPage } = usePageStore();
   const {isLogin, setIsLogin} = useLoginStore();
+  const baseUrl = process.env.REACT_APP_API_URL || '';
 
   const changePage = (page: string) => {
       setPage(page);
@@ -14,6 +15,7 @@ function Footer() {
 
   const logout = () => {
       signOut(
+            baseUrl,
             () => {
                 setIsLogin(false);
                 setPage('home');

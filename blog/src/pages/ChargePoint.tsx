@@ -8,12 +8,14 @@ function ChargePointPage() {
 
     const sessionId = 'your-session-id'; // 세션 ID는 실제 값을 사용해야 합니다.
     const {showAlert} = useAlert();
+    const baseUrl = process.env.REACT_APP_API_URL || '';
     const [request, setRequest] = useState<ChargePointsRequest>({
         amount: 0,
     });
 
     const requestChargePoints = () => {
         chargePointsApi(
+            baseUrl,
             request,
             sessionId,
             () => {

@@ -10,10 +10,12 @@ function ReceiptDetailPage() {
 
     const {receiptId, setReceiptId} = useReceiptStore();
     const {currentPage, setPage} = usePageStore();
+    const baseUrl = process.env.REACT_APP_API_URL || '';
     const [receiptDetail, setReceiptDetail] = useState<ReceiptDetailItem | null>(null);
 
     useEffect(() => {
         requestReceiptDetail(
+            baseUrl,
             receiptId!,
             (receipt) => {
                 setReceiptDetail(receipt);
@@ -39,6 +41,7 @@ function ReceiptDetailPage() {
 
     const onClickRefund = () => {
         requestRefund(
+            baseUrl,
             receiptId!,
             () => {
                 console.log('Refund success.');

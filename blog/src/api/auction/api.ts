@@ -1,12 +1,13 @@
 import {AuctionDetailItem, AuctionItem, AuctionPurchaseRequest, AuctionsRequest} from "./type";
 
 async function requestAuctionList(
+    baseUrl: string,
     data: AuctionsRequest,
     onSuccess: (auctions: AuctionItem[]) => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch(`http://localhost:8080/auctions?size=${data.size}&offset=${data.offset}`, {
+        const response = await fetch(`${baseUrl}/auctions?size=${data.size}&offset=${data.offset}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,12 +27,13 @@ async function requestAuctionList(
 }
 
 async function requestAuctionDetail(
+    baseUrl: string,
     auctionId: number,
     onSuccess: (auctionDetail: AuctionDetailItem) => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch(`http://localhost:8080/auctions/${auctionId}`, {
+        const response = await fetch(`${baseUrl}/auctions/${auctionId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,13 +54,14 @@ async function requestAuctionDetail(
 }
 
 async function requestAuctionBid(
+    baseUrl: string,
     auctionId: number,
     request: AuctionPurchaseRequest,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch(`http://localhost:8080/auctions/${auctionId}/purchase`, {
+        const response = await fetch(`${baseUrl}/auctions/${auctionId}/purchase`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

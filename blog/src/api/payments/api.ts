@@ -1,13 +1,14 @@
 import {ChargePointsRequest} from "./type";
 
 async function chargePointsApi(
+    baseUrl: string,
     data: ChargePointsRequest,
     sessionId: string,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/payments/points/charge', {
+        const response = await fetch(`${baseUrl}/payments/points/charge`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

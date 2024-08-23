@@ -1,12 +1,13 @@
 import {SignInRequest, SignUpRequest} from "./type";
 
 async function signUpApi(
+    baseUrl: string,
     data: SignUpRequest,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/auth/signup', {
+        const response = await fetch(`${baseUrl}/auth/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,12 +26,13 @@ async function signUpApi(
 }
 
 async function signInApi(
+    baseUrl: string,
     data: SignInRequest,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/auth/signin', {
+        const response = await fetch(`${baseUrl}/auth/signin`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -51,11 +53,12 @@ async function signInApi(
 }
 
 async function signOut(
+    baseUrl: string,
     onSuccess: () => void,
     onFailure: () => void
 ) {
     try {
-        const response = await fetch('http://localhost:8080/auth/signout', {
+        const response = await fetch(`${baseUrl}/auth/signout`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',

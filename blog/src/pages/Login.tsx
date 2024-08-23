@@ -9,6 +9,7 @@ function LoginPage() {
     const {currentPage, setPage} = usePageStore();
     const {isLogin, setIsLogin} = useLoginStore();
     const {showAlert} = useAlert();
+    const baseUrl = process.env.REACT_APP_API_URL || '';
 
     const [request, setRequest] = useState<SignInRequest>({
         signInId: '',
@@ -20,7 +21,9 @@ function LoginPage() {
     }
 
     const requestLogin = () => {
-        signInApi(request,
+        signInApi(
+            baseUrl,
+            request,
             () => {
                 setPage('home');
                 setIsLogin(true);

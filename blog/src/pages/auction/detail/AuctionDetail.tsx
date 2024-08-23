@@ -12,6 +12,7 @@ import {getAuctionProgress} from "../../../util/NumberUtil";
 function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
   const {currentPage, setPage} = usePageStore();
+  const baseUrl = process.env.REACT_APP_API_URL || ''
   const { showAlert } = useAlert();
   const [auction, setAuction] = useState<AuctionDetailInfo | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -37,7 +38,9 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
     if(auctionId === undefined) {
       return;
     }
-    requestAuctionDetail(auctionId,
+    requestAuctionDetail(
+        baseUrl,
+        auctionId,
         (auctionDetailItem) => {
           setAuction({
             auctionId: auctionDetailItem.auctionId,
@@ -64,6 +67,7 @@ function AuctionDetail({ auctionId }: { auctionId?: number }) {
 
   const onClickBidButton = () => {
     requestAuctionBid(
+        baseUrl,
         auction?.auctionId!,
         {quantity: quantity, price: auction!.currentPrice},
         () => {

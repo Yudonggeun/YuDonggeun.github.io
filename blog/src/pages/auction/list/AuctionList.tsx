@@ -13,9 +13,11 @@ function AuctionList() {
 
     const [auctions, setAuctions] = useState<AuctionItem[]>([]);
     const {showAlert} = useAlert();
+    const baseUrl = process.env.REACT_APP_API_URL || ''
 
     useEffect(() => {
         requestAuctionList(
+            baseUrl,
             request,
             (newAuctions) => {
                 setAuctions([...newAuctions]);
@@ -27,6 +29,7 @@ function AuctionList() {
 
     const nextPage = () => {
         requestAuctionList(
+            baseUrl,
             {
                 offset: request.offset + request.size,
                 size: request.size,
@@ -45,6 +48,7 @@ function AuctionList() {
 
     const previousPage = () => {
         requestAuctionList(
+            baseUrl,
             {
                 offset: request.offset - request.size,
                 size: request.size,

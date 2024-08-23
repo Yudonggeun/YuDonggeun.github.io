@@ -7,6 +7,7 @@ import useAlert from "../hooks/useAlert";
 function SignUpPage() {
 
     const {currentPage, setPage} = usePageStore();
+    const baseUrl = process.env.REACT_APP_API_URL || '';
     const {showAlert} = useAlert();
 
     const [request, setRequest] = useState<SignUpRequest>({
@@ -28,7 +29,9 @@ function SignUpPage() {
     };
 
     const requestSignUp = () => {
-        signUpApi(request,
+        signUpApi(
+            baseUrl,
+            request,
             () => {
                 setPage('login');
             },
