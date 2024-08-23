@@ -1,6 +1,6 @@
 import {PercentagePricePolicy, ConstantPricePolicy, AuctionDetailInfo} from "./type";
 import {getPriceFormatted} from "../../../util/NumberUtil";
-import {formatVariationDuration, getMsFromIso8601Duration} from "../../../util/DateUtil";
+import {formatVariationDuration, getMsFromIso8601Duration, getTimeDifferenceInMs} from "../../../util/DateUtil";
 import {useEffect} from "react";
 
 interface PricePolicyElementProps {
@@ -17,18 +17,37 @@ function PricePolicyElement(
     }: PricePolicyElementProps) {
 
     useEffect(() => {
-        const interval = getMsFromIso8601Duration(auction.variationDuration);
-        const intervalId = setInterval(() => {
-            const nextPrice = calculateNextPrice();
 
-            if(priceLimit <= nextPrice) {
-                setAuction({...auction, currentPrice: nextPrice});
+        const durationMs = getMsFromIso8601Duration(auction.variationDuration);
+        const diffMsBetweenStartedAndNow = getTimeDifferenceInMs(auction.startedAt, new Date());
+        const diffMs = getTimeDifferenceInMs(auction.startedAt, auction.finishedAt);
+
+        const times = Math.floor(diffMsBetweenStartedAndNow / durationMs);
+
+        let currentPrice = auction.originPrice;
+        for(let i = 0; i < times; i++) {
+            const nextPrice = calculateNextPrice();
+            if (priceLimit <= nextPrice) {
+                currentPrice = nextPrice;
+            } else {
+                currentPrice = priceLimit;
+            }
+        }
+        setAuction({ ...auction, currentPrice: currentPrice });
+
+        const intervalId = setInterval(() => {
+
+            if (diffMs % durationMs === 0) {
+                const nextPrice = calculateNextPrice();
+                if (priceLimit <= nextPrice) {
+                    setAuction({ ...auction, currentPrice: nextPrice });
+                }
             }
 
-        }, interval);
+        }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [auction.variationDuration]);
+    }, []);
 
     function calculateNextPrice() : number {
         if (auction.pricePolicy.type === "CONSTANT") {
